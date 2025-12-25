@@ -1,6 +1,5 @@
 export function TodoCard(props) {
-  const {todoIndex, todos} = props
-  const todo = todos[todoIndex];
+  const {todo} = props;
   console.log(todo);
   return <div className="card todo-item">
     <p>{todo.input}</p>
