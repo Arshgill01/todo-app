@@ -2,7 +2,7 @@ import { Tabs } from "./components/Tabs";
 import { Header } from "./components/Header";
 import { TodoInput } from "./components/TodoInput";
 import { TodoList } from "./components/TodoList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function App(){
 
   // const todos = [
@@ -15,9 +15,12 @@ function App(){
   const [todos, setTodos] = useState([]);
   const [selectedTab, setSelectedTab] = useState("Open");
 
+
+
   function handleAddTodo(newTodo){
     const newTodoList = [...todos, {input: newTodo, complete: false}];
     setTodos(newTodoList);
+    handleSaveTodo(newTodoList);
    
   }
   
@@ -27,6 +30,7 @@ function App(){
     completeTodoList['complete'] = true;
     newTodoList[index] = completeTodoList
     setTodos(newTodoList);
+    handleSaveTodo(newTodoList);
   }
 
   function handleDeleteTodo(index){
@@ -34,10 +38,21 @@ function App(){
       return valIndex !== index;
     })
     setTodos(newTodoList);
+    handleSaveTodo(newTodoList);
   }
 
  // spreading out the todos -- currently one one default todo, 
     // and then creating a newtodo, which is the parameter, and the value for the complete status, which would be false in the start. 
+
+  function handleSaveTodo(currentTodo){
+    localStorage.setItem("todo-item", JSON.stringify({todos: currentTodo}))
+  }
+
+  useEffect(()=>{
+    if(!localStorage || !localStorage.getItem("todo-item")){return}
+    let db = JSON.parse(localStorage.getItem("todo-item"))
+    setTodos(db.todos);
+  }, [])
 
   return(
     <>

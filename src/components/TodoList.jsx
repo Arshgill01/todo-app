@@ -10,7 +10,7 @@ export function TodoList(props) {
   return <>
     {filteredTodo.map((todo, todoIndex)=>{
       return(
-        <TodoCard key={todoIndex} todo={todo} todoIndex={todoIndex} {...props}/>
+        <TodoCard key={todoIndex} todo={todo} todoIndex={todos.findIndex(val => val.input === todo.input)} {...props}/>
       )
     })}
   </>
