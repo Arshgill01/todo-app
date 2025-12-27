@@ -12,12 +12,28 @@ function App(){
   // { input: 'Say hi to gran gran', complete: true },
   // ]
 
-  const [todos, setTodos] = useState([{ input: 'Hello! Add your first todo!', complete: true }]);
+  const [todos, setTodos] = useState([]);
+  const [selectedTab, setSelectedTab] = useState("Open");
 
   function handleAddTodo(newTodo){
     const newTodoList = [...todos, {input: newTodo, complete: false}];
     setTodos(newTodoList);
    
+  }
+  
+  function handleCompleteTodo(index){
+    let newTodoList = [...todos]
+    let completeTodoList = todos[index]
+    completeTodoList['complete'] = true;
+    newTodoList[index] = completeTodoList
+    setTodos(newTodoList);
+  }
+
+  function handleDeleteTodo(index){
+    let newTodoList = todos.filter((val, valIndex)=>{
+      return valIndex !== index;
+    })
+    setTodos(newTodoList);
   }
 
  // spreading out the todos -- currently one one default todo, 
@@ -27,10 +43,10 @@ function App(){
     <>
 
 
-    <Header todos={todos}/>
-    <Tabs todos={todos}/>
+    <Header todos={todos} />
+    <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} todos={todos}/>
     <TodoInput handleAddTodo={handleAddTodo}/>
-    <TodoList todos={todos}/>
+    <TodoList handleCompleteTodo={handleCompleteTodo} handleDeleteTodo={handleDeleteTodo} selectedTab={selectedTab} todos={todos}/>
 
 
     </>  
